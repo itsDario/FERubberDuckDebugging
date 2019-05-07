@@ -7,6 +7,8 @@ let easyCodeArray = []
 let hardCodeArray = []
 let yellowDuckImage
 let redDuckImage
+let timeOfLastDuck = 0
+let timeBetweenDucks = 100
 
 function pullRandomCode(difficultyCodeArray) {
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
@@ -26,9 +28,8 @@ function codeFilter() {
 
 function setup() {
   // put setup code here
-  // yellowDuckImage = loadImage('ducks/yellow.png')
-  yellowDuckImage = loadImage('https://imgur.com/hPuCVwP')
-  redDuckImage = loadImage('https://imgur.com/A6OpN77')
+  yellowDuckImage = loadImage('./ducks/yellow.png')
+  redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
 
   fetch("http://localhost:3000/words")
@@ -67,7 +68,7 @@ function draw() {
   background(80, 10, 190) //white background
   text((lastEnteredWord.join('')), width / 2, height / 2); //render words by combinig letter array
   drawDucks()
-  // addDuckTimer()
+  addDuckTimer()
 }
 
 function drawDucks() {
@@ -88,8 +89,13 @@ function drawDucks() {
 }
 
 function addDuckTimer() {
-  fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+  // fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+  // const dates = dates_as_int.map(date => new Date(date).getTime())
+  // console.log(dates);
 
+  // if (timeOfLastDuck > Time.now + timeBetweenDucks) {
+  // 
+  // }
 }
 
 function keyPressed() {
