@@ -18,7 +18,6 @@ function draw() {
   // put drawing code here
   background(80, 10, 190) //white background 
   text((lastEnteredWord.join('')), width / 2, height / 2); //render words by combinig letter array
-  displayCurrentWords()
   drawDucks()
 }
 
@@ -38,11 +37,6 @@ function drawDucks() {
   }
 }
 
-function displayCurrentWords() {
-
-  text(ducksArray["currentWords"].join(', '), width / 2, (height / 2) + 50);
-}
-
 function keyPressed() {
   // console.log(key.length);
   if (key == 'Backspace') {
@@ -56,7 +50,7 @@ function keyPressed() {
     lastEnteredWord = []
   }
 
-  console.log(ducksArray["currentWords"].indexOf(lastEnteredWord.join('')));
+  // console.log(ducksArray["currentWords"].indexOf(lastEnteredWord.join('')));
   // if (ducksArray["currentWords"].indexOf(lastEnteredWord.join('')) > -1) {
   //   fill(255, 204, 0);
   // } else {
