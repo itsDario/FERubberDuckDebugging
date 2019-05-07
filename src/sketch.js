@@ -26,8 +26,9 @@ function codeFilter() {
 
 function setup() {
   // put setup code here
-  yellowDuckImage = loadImage('ducks/yellow.png')
-  redDuckImage = loadImage('ducks/red.png')
+  // yellowDuckImage = loadImage('ducks/yellow.png')
+  yellowDuckImage = loadImage('https://imgur.com/hPuCVwP')
+  redDuckImage = loadImage('https://imgur.com/A6OpN77')
   imageMode(CENTER);
 
   fetch("http://localhost:3000/words")
@@ -39,6 +40,7 @@ function setup() {
         // fillRandomItem()
       })
       codeFilter()
+      fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
       fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
     })
 
