@@ -25,7 +25,7 @@ function codeFilter() {
 
 
 function setup() {
-  
+textSize(20)
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
@@ -46,7 +46,7 @@ function setup() {
   //^^^^^^^Calls the codeFilter function to start filtering the codes into the corresponding array^^^^^^^
 
   createCanvas(windowWidth - 10, windowHeight - 90);
-  fill(255, 0, 0)
+  fill(0, 0, 0)
   textAlign(CENTER);
   ducksArray = {
     currentWords: ['', '', '', '', '', ''],
@@ -57,6 +57,7 @@ function setup() {
 
 function fillRandomItem(codeObj) { //fills ducksArray with random word
   randomNumber = Math.floor(Math.random() * ducksArray['currentWords'].length)
+
   ducksArray['currentWords'][randomNumber] = codeObj.code
 }
 
@@ -73,15 +74,15 @@ function drawDucks() {
     if (ducksArray["currentWords"][i].length > 0) {
 
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
-        fill(255, 204, 0);
+        fill(150, 203, 92);
       }
 
-      image(yellowDuckImage, 50, 50,50,50);
+
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
 
-    fill(255, 0, 0)
+    fill(255, 255, 255)
   }
 }
 
