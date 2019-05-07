@@ -25,9 +25,9 @@ function codeFilter() {
 
 
 function setup() {
-  // put setup code here
-  yellowDuckImage = loadImage('ducks/yellow.png')
-  redDuckImage = loadImage('ducks/red.png')
+  
+  yellowDuckImage = loadImage('./ducks/yellow.png')
+  redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
 
   fetch("http://localhost:3000/words")
@@ -76,7 +76,7 @@ function drawDucks() {
         fill(255, 204, 0);
       }
 
-      // image(yellowDuckImage, 50, 50,50,50);
+      image(yellowDuckImage, 50, 50,50,50);
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
