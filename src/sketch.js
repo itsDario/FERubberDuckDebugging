@@ -1,9 +1,36 @@
 let lastEnteredWord = []
 let success = ''
 let ducksArray
+let codeLibrary =[]
+let randomCode
+let easyCodeArray = []
+let hardCodeArray = []
+
+function pullRandomCode(difficultyCodeArray){
+  randomCode = difficultyCodeArray[Math.floor(Math.random()*difficultyCodeArray.length)];
+ return randomCode
+}
+
+function codeFilter(){
+  easyCodeArray = codeLibrary.filter(word=>{ return word.category.difficulty === "easy"})
+  hardCodeArray = codeLibrary.filter(word=>{ return word.category.difficulty === "hard"})
+
+}
+
 
 function setup() {
   // put setup code here
+fetch("http://localhost:3000/words")
+.then(response => response.json())
+.then(word =>{ word.forEach((word)=>{
+  codeLibrary.push(word)
+  codeFilter()
+  })
+})
+
+//^^^^^^^^^Fetches Codes and Shovels them into the codeLibrary Array^^^^^^^^^
+//^^^^^^^Calls the codeFilter function to start filtering the codes into the corresponding array^^^^^^^
+
   createCanvas(windowWidth - 10, windowHeight - 90);
   fill(255, 0, 0)
   textAlign(CENTER);
@@ -14,9 +41,13 @@ function setup() {
   }
 }
 
+
+
+
+
 function draw() {
   // put drawing code here
-  background(80, 10, 190) //white background 
+  background(80, 10, 190) //white background
   text((lastEnteredWord.join('')), width / 2, height / 2); //render words by combinig letter array
   drawDucks()
 }
