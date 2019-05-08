@@ -19,8 +19,18 @@ let gameOverImage
 
 //python -m SimpleHTTPServer  to host a local server
 
-function pullRandomCode(difficultyCodeArray) {
+function pullRandomCode() {
   //pull new word thats not on screen already
+  let randomN = Math.random()
+  let difficultyCodeArray = easyCodeArray
+  console.log(randomN);
+
+  if (randomN < 0.8) {
+    difficultyCodeArray = easyCodeArray
+  } else {
+    difficultyCodeArray = hardCodeArray
+  }
+
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
 
   while (ducksArray["currentWords"].indexOf(randomCode.code) > -1) {
@@ -66,9 +76,10 @@ function setup() {
   createCanvas(windowWidth - 10, windowHeight - 90);
   fill(0, 0, 0)
   ducksArray = {
+    currentDiff: ['', '', '', '', '', ''],
     currentWords: ['', '', '', '', '', ''],
     xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
-    yLocations: [(height / 4) * 1, (height / 4) * 1, (height / 4) * 1, (height / 4) * 2.5, (height / 4) * 2.5, (height / 4) * 2.5]
+    yLocations: [(height / 4) * 1.3, (height / 4) * 1.1, (height / 4) * 1.2, (height / 4) * 2.5, (height / 4) * 2.4, (height / 4) * 2.6]
   }
 }
 
@@ -76,6 +87,8 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
   let randomNumber = Math.floor(Math.random() * ducksArray['currentWords'].length)
   if (ducksArray['currentWords'][randomNumber].length === 0) {
     ducksArray['currentWords'][randomNumber] = codeObj.code
+    ducksArray['currentDiff'][randomNumber] = codeObj.category.difficulty
+
     return true
   } else {
     return false
@@ -132,7 +145,7 @@ function displayedWordCount() {
 function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
-      fill(255, 255, 255)
+      fill(0)
 
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(150, 203, 92);
@@ -140,9 +153,17 @@ function drawDucks() {
           ducksArray["currentWords"][i] = ''
         }
       }
+      // console.log(ducksArray['currentDiff']);
+      if (ducksArray['currentDiff'][i] == 'easy') {
+        image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
+      } else {
+        image(redDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
+      }
 
-      image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
+      // fill(0, 255, 0)
+      // text((lastEnteredWord.join('')), width / 2, height / 2);
+      // text((lastEnteredWord.join('')), ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
 
   }
@@ -153,7 +174,7 @@ function addDuckTimer() {
   // console.log((displayedWordCount()), 'nowords');
 
   if (millis() > timeOfLastDuck + timeBetweenDucks || (millis() > 5000 && displayedWordCount() < 1)) {
-    if (fillRandomItem(pullRandomCode(easyCodeArray))) { //use to fill random letters
+    if (fillRandomItem(pullRandomCode())) { //use to fill random letters
       timeOfLastDuck = millis()
     }
   }
@@ -167,7 +188,7 @@ function displayPoints() {
 function gameTimeLeft() {
   fill(0, 0, 0)
   text('Time: ' + Math.floor(60 - (millis() / 1000)), 50, 100)
-  if (millis() / 1000 > 60) {
+  if (millis() / 1000 > 60 || displayedWordCount() > 5) {
     textAlign(CENTER)
     gameOver = true
   }
@@ -179,7 +200,11 @@ let removeWord = (wordToRemove) => {
     if (wordToRemoveIndex > -1) {
 
       ducksArray["currentWords"][wordToRemoveIndex] = ''
-      points += 1
+      if (ducksArray["currentDiff"][wordToRemoveIndex] === 'easy') {
+        points += 2
+      } else {
+        points += 5
+      }
     }
   }
 }
