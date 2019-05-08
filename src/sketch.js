@@ -12,8 +12,10 @@ let bathTubeImage
 let timeOfLastDuck = 0
 let timeBetweenDucks = 4000
 // let timeBetweenDucks = 16000//test timing
-let points = 0 //number of ducks successfully entered 
+let points = 0 //number of ducks successfully entered
 let gameOver = false
+let gameOverImage
+
 
 //python -m SimpleHTTPServer  to host a local server
 
@@ -42,6 +44,7 @@ function codeFilter() {
 
 function setup() {
   textSize(20)
+  gameOverImage = loadImage("./ducks/emptytubgameover.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
@@ -82,8 +85,9 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 function draw() {
   textAlign(CENTER);
   // put drawing code here
-  image(bathTubeImage, width / 2, height / 2);
+
   if (!gameOver) {
+    image(bathTubeImage, width / 2, height / 2);
     text((lastEnteredWord.join('')), width / 2, height / 2);
     drawDucks()
     addDuckTimer()
@@ -94,11 +98,12 @@ function draw() {
     noDuckCheck()
 
   } else {
-    // background(255)
+    background(255)
+    image(gameOverImage, width / 2, height / 2)
     textSize(32)
     text('Points: ' + points, (width / 2), height / 4);
-    textSize(64)
-    text('Game Over', (width / 2), height / 2);
+    // textSize(64)
+    // text('Game Over', (width / 2), height / 2);
   }
 }
 
