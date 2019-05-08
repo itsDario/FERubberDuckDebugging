@@ -11,7 +11,9 @@ let redDuckImage
 let bathTubeImage
 let timeOfLastDuck = 0
 let timeBetweenDucks = 4000
+// let timeBetweenDucks = 16000//test timing
 let points = 0 //number of ducks successfully entered 
+let gameOver = false
 
 //python -m SimpleHTTPServer  to host a local server
 
@@ -68,27 +70,64 @@ function setup() {
 }
 
 function fillRandomItem(codeObj) { //fills ducksArray with random word
-  randomNumber = Math.floor(Math.random() * ducksArray['currentWords'].length)
-
-  ducksArray['currentWords'][randomNumber] = codeObj.code
+  let randomNumber = Math.floor(Math.random() * ducksArray['currentWords'].length)
+  if (ducksArray['currentWords'][randomNumber].length === 0) {
+    ducksArray['currentWords'][randomNumber] = codeObj.code
+    return true
+  } else {
+    return false
+  }
 }
 
 function draw() {
   textAlign(CENTER);
   // put drawing code here
   image(bathTubeImage, width / 2, height / 2);
+  if (!gameOver) {
+    text((lastEnteredWord.join('')), width / 2, height / 2);
+    drawDucks()
+    addDuckTimer()
 
-  text((lastEnteredWord.join('')), width / 2, height / 2);
-  drawDucks()
-  addDuckTimer()
-  textAlign(LEFT);
-  displayPoints()
-  gameTimeLeft()
+    textAlign(LEFT);
+    displayPoints()
+    gameTimeLeft()
+    noDuckCheck()
+
+  } else {
+    // background(255)
+    textSize(32)
+    text('Points: ' + points, (width / 2), height / 4);
+    textSize(64)
+    text('Game Over', (width / 2), height / 2);
+  }
+}
+
+function noDuckCheck() {
+  let wordCount = 0
+  ducksArray["currentWords"].forEach(word => {
+    if (word.length > 0) {
+      wordCount += 1
+    }
+  });
+  if (wordCount == 0) {
+    // addStringToScreen()
+  }
+}
+
+function displayedWordCount() {
+  let wordCount = 0
+  ducksArray['currentWords'].forEach(word => {
+    if (word.length > 0) {
+      wordCount += 1
+    }
+  });
+  return wordCount
 }
 
 function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
+      fill(255, 255, 255)
 
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(150, 203, 92);
@@ -98,7 +137,6 @@ function drawDucks() {
       }
 
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
-      fill(255, 255, 255)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
 
@@ -107,9 +145,12 @@ function drawDucks() {
 
 function addDuckTimer() {
   // fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
-  if (millis() > timeOfLastDuck + timeBetweenDucks) {
-    fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
-    timeOfLastDuck = millis()
+  // console.log((displayedWordCount()), 'nowords');
+
+  if (millis() > timeOfLastDuck + timeBetweenDucks || (millis() > 5000 && displayedWordCount() < 1)) {
+    if (fillRandomItem(pullRandomCode(easyCodeArray))) { //use to fill random letters
+      timeOfLastDuck = millis()
+    }
   }
 }
 
@@ -123,14 +164,19 @@ function gameTimeLeft() {
   text('Time: ' + Math.floor(60 - (millis() / 1000)), 50, 100)
   if (millis() / 1000 > 60) {
     textAlign(CENTER)
-    text('Game Over ' + points, (width / 2), (height / 2) - 50);
+    gameOver = true
   }
 }
 
 let removeWord = (wordToRemove) => {
-  let wordIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
-  ducksArray["currentWords"][wordIndex] = ''
-  points += 1
+  if (wordToRemove.length > 0) {
+    let wordToRemoveIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
+    if (wordToRemoveIndex > -1) {
+
+      ducksArray["currentWords"][wordToRemoveIndex] = ''
+      points += 1
+    }
+  }
 }
 
 function keyPressed() {
