@@ -51,7 +51,6 @@ function codeFilter() {
 
 
 function setup() {
-  debugger
   textSize(20)
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
@@ -196,7 +195,11 @@ let removeWord = (wordToRemove) => {
     if (wordToRemoveIndex > -1) {
 
       ducksArray["currentWords"][wordToRemoveIndex] = ''
-      points += 1
+      if (ducksArray["currentDiff"][wordToRemoveIndex] === 'easy') {
+        points += 2
+      } else {
+        points += 5
+      }
     }
   }
 }
