@@ -10,7 +10,7 @@ let yellowDuckImage
 let redDuckImage
 let bathTubeImage
 let timeOfLastDuck = 0
-let timeBetweenDucks = 5000
+let timeBetweenDucks = 4000
 
 //python -m SimpleHTTPServer  to host a local server
 
@@ -50,6 +50,7 @@ textSize(20)
 
   //^^^^^^^^^Fetches Codes and Shovels them into the codeLibrary Array^^^^^^^^^
   //^^^^^^^Calls the codeFilter function to start filtering the codes into the corresponding array^^^^^^^
+   bathTubeImage = loadImage('./ducks/bathtime.png');//
 
   createCanvas(windowWidth - 10, windowHeight - 90);
   fill(0, 0, 0)
@@ -69,7 +70,9 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 
 function draw() {
   // put drawing code here
-  background(80, 10, 190) //white background
+    image(bathTubeImage, width/2, height/2);
+
+  // background(80, 10, 190) //white background
   text((lastEnteredWord.join('')), width / 2, height / 2);
   drawDucks()
   addDuckTimer()
