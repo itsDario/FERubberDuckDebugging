@@ -51,6 +51,7 @@ function codeFilter() {
 
 
 function setup() {
+  debugger
   textSize(20)
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
@@ -76,7 +77,7 @@ function setup() {
     currentDiff: ['', '', '', '', '', ''],
     currentWords: ['', '', '', '', '', ''],
     xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
-    yLocations: [(height / 4) * 1, (height / 4) * 1, (height / 4) * 1, (height / 4) * 2.5, (height / 4) * 2.5, (height / 4) * 2.5]
+    yLocations: [(height / 4) * 1.3, (height / 4) * 1.1, (height / 4) * 1.2, (height / 4) * 2.5, (height / 4) * 2.4, (height / 4) * 2.6]
   }
 }
 
@@ -109,7 +110,7 @@ function draw() {
   } else {
     // background(255)
     textSize(32)
-    text('Points: ' + points, (width / 2), height / 4);
+    text('Points: ' + points, (width / 2), (height / 2) - 100);
     textSize(64)
     text('Game Over', (width / 2), height / 2);
   }
@@ -140,7 +141,7 @@ function displayedWordCount() {
 function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
-      fill(255, 255, 255)
+      fill(0)
 
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(150, 203, 92);
@@ -156,6 +157,9 @@ function drawDucks() {
       }
 
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
+      // fill(0, 255, 0)
+      // text((lastEnteredWord.join('')), width / 2, height / 2);
+      // text((lastEnteredWord.join('')), ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
 
   }
