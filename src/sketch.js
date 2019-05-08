@@ -1,4 +1,5 @@
 let lastEnteredWord = []
+let enteredString = []
 let success = ''
 let ducksArray
 let codeLibrary = []
@@ -7,6 +8,11 @@ let easyCodeArray = []
 let hardCodeArray = []
 let yellowDuckImage
 let redDuckImage
+let bathTubeImage
+let timeOfLastDuck = 0
+let timeBetweenDucks = 5000
+
+//python -m SimpleHTTPServer  to host a local server
 
 function pullRandomCode(difficultyCodeArray) {
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
@@ -64,19 +70,26 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 function draw() {
   // put drawing code here
   background(80, 10, 190) //white background
-  text((lastEnteredWord.join('')), width / 2, height / 2); //render words by combinig letter array
+  text((lastEnteredWord.join('')), width / 2, height / 2);
   drawDucks()
-  // addDuckTimer()
+  addDuckTimer()
 }
 
 function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
 
+      // console.log(enteredString == ducksArray["currentWords"][i], key == 'Enter');
+      // console.log(enteredString.join(''));
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(150, 203, 92);
+        if (key == 'Enter') {
+          ducksArray["currentWords"][i] = ''
+        }
       }
-
+      if (enteredString.join('') == ducksArray["currentWords"][i] && key == 'Enter') {
+        debugger
+      }
 
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
@@ -87,8 +100,16 @@ function drawDucks() {
 }
 
 function addDuckTimer() {
-  fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+  // fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+  if (millis() > timeOfLastDuck + timeBetweenDucks) {
+    fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+    timeOfLastDuck = millis()
+  }
+}
 
+let removeWord = (wordToRemove) => {
+  let wordIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
+  ducksArray["currentWords"][wordIndex] = ''
 }
 
 function keyPressed() {
@@ -100,7 +121,8 @@ function keyPressed() {
     lastEnteredWord.push(key)
   }
   if (key === 'Enter') {
-    // console.log('space');
+    // enteredString = lastEnteredWord
+    removeWord(lastEnteredWord)
     lastEnteredWord = []
   }
 
