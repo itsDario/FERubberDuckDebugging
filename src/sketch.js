@@ -1,4 +1,5 @@
 let lastEnteredWord = []
+let enteredString = []
 let success = ''
 let ducksArray
 let codeLibrary = []
@@ -7,8 +8,9 @@ let easyCodeArray = []
 let hardCodeArray = []
 let yellowDuckImage
 let redDuckImage
+let bathTubeImage
 let timeOfLastDuck = 0
-let timeBetweenDucks = 100
+let timeBetweenDucks = 5000
 
 //python -m SimpleHTTPServer  to host a local server
 
@@ -44,7 +46,6 @@ function setup() {
       })
       codeFilter()
       fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
-      fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
     })
 
   //^^^^^^^^^Fetches Codes and Shovels them into the codeLibrary Array^^^^^^^^^
@@ -68,7 +69,7 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 function draw() {
   // put drawing code here
   background(80, 10, 190) //white background
-  text((lastEnteredWord.join('')), width / 2, height / 2); //render words by combinig letter array
+  text((lastEnteredWord.join('')), width / 2, height / 2);
   drawDucks()
   addDuckTimer()
 }
@@ -77,11 +78,18 @@ function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
 
+      // console.log(enteredString == ducksArray["currentWords"][i], key == 'Enter');
+      // console.log(enteredString.join(''));
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(255, 204, 0);
+        if (key == 'Enter') {
+          ducksArray["currentWords"][i] = ''
+        }
+      }
+      if (enteredString.join('') == ducksArray["currentWords"][i] && key == 'Enter') {
+        debugger
       }
 
-      // image(yellowDuckImage, 50, 50,50,50);
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
@@ -92,12 +100,15 @@ function drawDucks() {
 
 function addDuckTimer() {
   // fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
-  // const dates = dates_as_int.map(date => new Date(date).getTime())
-  // console.log(dates);
+  if (millis() > timeOfLastDuck + timeBetweenDucks) {
+    fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
+    timeOfLastDuck = millis()
+  }
+}
 
-  // if (timeOfLastDuck > Time.now + timeBetweenDucks) {
-  // 
-  // }
+let removeWord = (wordToRemove) => {
+  let wordIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
+  ducksArray["currentWords"][wordIndex] = ''
 }
 
 function keyPressed() {
@@ -109,7 +120,8 @@ function keyPressed() {
     lastEnteredWord.push(key)
   }
   if (key === 'Enter') {
-    // console.log('space');
+    // enteredString = lastEnteredWord
+    removeWord(lastEnteredWord)
     lastEnteredWord = []
   }
 
