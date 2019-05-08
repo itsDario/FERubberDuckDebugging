@@ -18,14 +18,10 @@ let points = 0 //number of ducks successfully entered
 function pullRandomCode(difficultyCodeArray) {
   //pull new word thats not on screen already
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
-  // console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
 
   while (ducksArray["currentWords"].indexOf(randomCode.code) > -1) {
-    // console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
-    // console.log('repeatWord');
 
     randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
-    // console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
   }
 
   return randomCode
@@ -53,8 +49,6 @@ function setup() {
     .then(words => {
       words.forEach((word) => {
         codeLibrary.push(word)
-        // debugger
-        // fillRandomItem()
       })
       codeFilter()
       fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
@@ -66,7 +60,6 @@ function setup() {
 
   createCanvas(windowWidth - 10, windowHeight - 90);
   fill(0, 0, 0)
-  textAlign(CENTER);
   ducksArray = {
     currentWords: ['', '', '', '', '', ''],
     xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
@@ -81,13 +74,16 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 }
 
 function draw() {
+  textAlign(CENTER);
   // put drawing code here
   image(bathTubeImage, width / 2, height / 2);
 
   text((lastEnteredWord.join('')), width / 2, height / 2);
   drawDucks()
   addDuckTimer()
+  textAlign(LEFT);
   displayPoints()
+  gameTimeLeft()
 }
 
 function drawDucks() {
@@ -119,14 +115,22 @@ function addDuckTimer() {
 
 function displayPoints() {
   fill(0, 0, 0)
-  text(points, 50, 50)
+  text('Points: ' + points, 50, 50)
+}
+
+function gameTimeLeft() {
+  fill(0, 0, 0)
+  text('Time: ' + Math.floor(60 - (millis() / 1000)), 50, 100)
+  if (millis() / 1000 > 60) {
+    textAlign(CENTER)
+    text('Game Over ' + points, (width / 2), (height / 2) - 50);
+  }
 }
 
 let removeWord = (wordToRemove) => {
   let wordIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
   ducksArray["currentWords"][wordIndex] = ''
   points += 1
-  console.log(points, 'points');
 }
 
 function keyPressed() {
@@ -137,7 +141,6 @@ function keyPressed() {
     lastEnteredWord.push(key)
   }
   if (key === 'Enter') {
-    // enteredString = lastEnteredWord
     removeWord(lastEnteredWord)
     lastEnteredWord = []
   }
