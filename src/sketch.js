@@ -11,20 +11,17 @@ let redDuckImage
 let bathTubeImage
 let timeOfLastDuck = 0
 let timeBetweenDucks = 4000
+let points = 0 //number of ducks successfully entered 
 
 //python -m SimpleHTTPServer  to host a local server
 
 function pullRandomCode(difficultyCodeArray) {
   //pull new word thats not on screen already
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
-  // console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
 
   while (ducksArray["currentWords"].indexOf(randomCode.code) > -1) {
-    console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
-    console.log('repeatWord');
 
     randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
-    console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
   }
 
   return randomCode
@@ -52,8 +49,6 @@ function setup() {
     .then(words => {
       words.forEach((word) => {
         codeLibrary.push(word)
-        // debugger
-        // fillRandomItem()
       })
       codeFilter()
       fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
@@ -61,11 +56,10 @@ function setup() {
 
   //^^^^^^^^^Fetches Codes and Shovels them into the codeLibrary Array^^^^^^^^^
   //^^^^^^^Calls the codeFilter function to start filtering the codes into the corresponding array^^^^^^^
-   bathTubeImage = loadImage('./ducks/bathtime.png');//
+  bathTubeImage = loadImage('./ducks/bathtime.png'); //
 
   createCanvas(windowWidth - 10, windowHeight - 90);
   fill(0, 0, 0)
-  textAlign(CENTER);
   ducksArray = {
     currentWords: ['', '', '', '', '', ''],
     xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
@@ -80,36 +74,34 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 }
 
 function draw() {
+  textAlign(CENTER);
   // put drawing code here
-    image(bathTubeImage, width/2, height/2);
+  image(bathTubeImage, width / 2, height / 2);
 
-  // background(80, 10, 190) //white background
   text((lastEnteredWord.join('')), width / 2, height / 2);
   drawDucks()
   addDuckTimer()
+  textAlign(LEFT);
+  displayPoints()
+  gameTimeLeft()
 }
 
 function drawDucks() {
   for (let i = 0; i < ducksArray["currentWords"].length; i++) {
     if (ducksArray["currentWords"][i].length > 0) {
 
-      // console.log(enteredString == ducksArray["currentWords"][i], key == 'Enter');
-      // console.log(enteredString.join(''));
       if (lastEnteredWord.join('') == ducksArray["currentWords"][i]) {
         fill(150, 203, 92);
         if (key == 'Enter') {
           ducksArray["currentWords"][i] = ''
         }
       }
-      if (enteredString.join('') == ducksArray["currentWords"][i] && key == 'Enter') {
-        debugger
-      }
 
       image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
+      fill(255, 255, 255)
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
 
-    fill(255, 255, 255)
   }
 }
 
@@ -121,13 +113,27 @@ function addDuckTimer() {
   }
 }
 
+function displayPoints() {
+  fill(0, 0, 0)
+  text('Points: ' + points, 50, 50)
+}
+
+function gameTimeLeft() {
+  fill(0, 0, 0)
+  text('Time: ' + Math.floor(60 - (millis() / 1000)), 50, 100)
+  if (millis() / 1000 > 60) {
+    textAlign(CENTER)
+    text('Game Over ' + points, (width / 2), (height / 2) - 50);
+  }
+}
+
 let removeWord = (wordToRemove) => {
   let wordIndex = ducksArray["currentWords"].indexOf(wordToRemove.join(''))
   ducksArray["currentWords"][wordIndex] = ''
+  points += 1
 }
 
 function keyPressed() {
-  // console.log(key.length);
   if (key == 'Backspace') {
     lastEnteredWord.pop()
   }
@@ -135,15 +141,8 @@ function keyPressed() {
     lastEnteredWord.push(key)
   }
   if (key === 'Enter') {
-    // enteredString = lastEnteredWord
     removeWord(lastEnteredWord)
     lastEnteredWord = []
   }
 
-  // console.log(ducksArray["currentWords"].indexOf(lastEnteredWord.join('')));
-  // if (ducksArray["currentWords"].indexOf(lastEnteredWord.join('')) > -1) {
-  //   fill(255, 204, 0);
-  // } else {
-  //   fill(255, 0, 0)
-  // }
 }
