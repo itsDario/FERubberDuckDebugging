@@ -9,13 +9,25 @@ let hardCodeArray = []
 let yellowDuckImage
 let redDuckImage
 let bathTubeImage
-let timeOfLastDuck = 0
-let timeBetweenDucks = 5000
+let timeOfLastDuck = 5000
+// let timeBetweenDucks = 5000
+let timeBetweenDucks = 2000 // test speed
 
 //python -m SimpleHTTPServer  to host a local server
 
 function pullRandomCode(difficultyCodeArray) {
+  //pull new word thats not on screen already
   randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
+  // console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
+
+  while (ducksArray["currentWords"].indexOf(randomCode.code) > -1) {
+    console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
+    console.log('repeatWord');
+
+    randomCode = difficultyCodeArray[Math.floor(Math.random() * difficultyCodeArray.length)];
+    console.log(randomCode.code, ducksArray["currentWords"].indexOf(randomCode));
+  }
+
   return randomCode
 }
 
@@ -31,7 +43,7 @@ function codeFilter() {
 
 
 function setup() {
-textSize(20)
+  textSize(20)
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
