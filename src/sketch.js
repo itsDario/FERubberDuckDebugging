@@ -55,7 +55,7 @@ function codeFilter() {
 function setup() {
   textSize(20)
   gameOverImage = loadImage("./ducks/emptytubgameover.png")
-  startScreenLogo = loadImage("./ducks/ducklogo.png")
+  startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
@@ -229,6 +229,7 @@ function keyPressed() {
   }
 
 }
+<<<<<<< HEAD
 
 function keyReleased() {
   if (scene == 1) { //start screen
@@ -251,3 +252,5 @@ function keyReleased() {
 
   }
 }
+=======
+>>>>>>> e5cfe3f9d3ce52785e6d451d24033130aa3cc847
