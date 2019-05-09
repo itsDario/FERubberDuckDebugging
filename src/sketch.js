@@ -1,9 +1,7 @@
 let lastEnteredWord = []
-let enteredString = []
 let success = ''
 let ducksArray
 let codeLibrary = []
-let randomCode
 let easyCodeArray = []
 let hardCodeArray = []
 let gameStartTime
@@ -23,9 +21,9 @@ let gameOverImage
 
 function pullRandomCode() {
   //pull new word thats not on screen already
+  let randomCode
   let randomN = Math.random()
   let difficultyCodeArray = easyCodeArray
-  console.log(randomN);
 
   if (randomN < 0.8) {
     difficultyCodeArray = easyCodeArray
@@ -84,6 +82,11 @@ function setup() {
     xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
     yLocations: [(height / 4) * 1.3, (height / 4) * 1.1, (height / 4) * 1.2, (height / 4) * 2.5, (height / 4) * 2.4, (height / 4) * 2.6]
   }
+
+  //disable default actions
+  document.addEventListener('keydown', function (event) {
+    event.preventDefault()
+  });
 }
 
 function fillRandomItem(codeObj) { //fills ducksArray with random word
@@ -100,13 +103,9 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 
 function draw() {
   textAlign(CENTER);
-  // put drawing code here
-  if (scene == 1) { //start screen
+  if (scene == 1) {
+    background(255)
     image(startScreenLogo, width / 2, height / 2);
-    if (key == ' ') {
-      gameStartTime = millis()
-      scene = 2
-    }
   } else if (scene == 2) { //game play screen
     image(bathTubeImage, width / 2, height / 2);
     text((lastEnteredWord.join('')), width / 2, height / 2);
@@ -123,8 +122,6 @@ function draw() {
     image(gameOverImage, width / 2, height / 2)
     textSize(32)
     text('Points: ' + points, (width / 2), height / 4);
-    // textSize(64)
-    // text('Game Over', (width / 2), height / 2);
   }
 }
 
@@ -199,6 +196,7 @@ function gameTimeLeft() {
   text('Time: ' + timeLeft, 50, 100)
   if (timeLeft < 1 || displayedWordCount() > 5) {
     textAlign(CENTER)
+    key = ''
     scene = 3
   }
 }
@@ -230,4 +228,26 @@ function keyPressed() {
     lastEnteredWord = []
   }
 
+}
+
+function keyReleased() {
+  if (scene == 1) { //start screen
+    background(255)
+    image(startScreenLogo, width / 2, height / 2);
+    if (key == ' ') {
+      gameStartTime = millis()
+      points = 0
+      scene = 2
+      lastEnteredWord = []
+      ducksArray['currentWords'] = ['', '', '', '', '', '']
+      key = ''
+    }
+  } else if (scene == 3) {
+    if (key == ' ') {
+      scene = 1
+      key = ''
+    }
+  } else if (scene == 4) { //for 2leaderboard
+
+  }
 }
