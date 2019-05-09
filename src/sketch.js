@@ -57,7 +57,7 @@ function codeFilter() {
 function setup() {
   textSize(20)
   gameOverImage = loadImage("./ducks/emptytubgameover.png")
-  startScreenLogo = loadImage("./ducks/ducklogo.png")
+  startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
