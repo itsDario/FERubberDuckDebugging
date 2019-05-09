@@ -229,7 +229,7 @@ function keyPressed() {
   }
 
 }
-<<<<<<< HEAD
+
 
 function keyReleased() {
   if (scene == 1) { //start screen
@@ -252,5 +252,3 @@ function keyReleased() {
 
   }
 }
-=======
->>>>>>> e5cfe3f9d3ce52785e6d451d24033130aa3cc847
