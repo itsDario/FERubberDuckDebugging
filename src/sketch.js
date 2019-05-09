@@ -6,14 +6,16 @@ let codeLibrary = []
 let randomCode
 let easyCodeArray = []
 let hardCodeArray = []
+let gameStartTime
 let yellowDuckImage
 let redDuckImage
+let startScreenLogo
 let bathTubeImage
 let timeOfLastDuck = 0
 let timeBetweenDucks = 4000
 // let timeBetweenDucks = 16000//test timing
 let points = 0 //number of ducks successfully entered
-let gameOver = false
+let scene = 1
 let gameOverImage
 
 
@@ -55,6 +57,7 @@ function codeFilter() {
 function setup() {
   textSize(20)
   gameOverImage = loadImage("./ducks/emptytubgameover.png")
+  startScreenLogo = loadImage("./ducks/ducklogo.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
   imageMode(CENTER);
@@ -98,8 +101,13 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 function draw() {
   textAlign(CENTER);
   // put drawing code here
-
-  if (!gameOver) {
+  if (scene == 1) { //start screen
+    image(startScreenLogo, width / 2, height / 2);
+    if (key == ' ') {
+      gameStartTime = millis()
+      scene = 2
+    }
+  } else if (scene == 2) { //game play screen
     image(bathTubeImage, width / 2, height / 2);
     text((lastEnteredWord.join('')), width / 2, height / 2);
     drawDucks()
@@ -110,7 +118,7 @@ function draw() {
     gameTimeLeft()
     noDuckCheck()
 
-  } else {
+  } else if (scene == 3) { //game over screen
     background(255)
     image(gameOverImage, width / 2, height / 2)
     textSize(32)
@@ -187,10 +195,11 @@ function displayPoints() {
 
 function gameTimeLeft() {
   fill(0, 0, 0)
-  text('Time: ' + Math.floor(60 - (millis() / 1000)), 50, 100)
-  if (millis() / 1000 > 60 || displayedWordCount() > 5) {
+  let timeLeft = Math.floor(60 - (millis() - gameStartTime) / 1000)
+  text('Time: ' + timeLeft, 50, 100)
+  if (timeLeft < 1 || displayedWordCount() > 5) {
     textAlign(CENTER)
-    gameOver = true
+    scene = 3
   }
 }
 
