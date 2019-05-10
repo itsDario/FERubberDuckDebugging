@@ -15,6 +15,15 @@ let timeBetweenDucks = 4000
 let points = 0 //number of ducks successfully entered
 let scene = 1
 let gameOverImage
+let finalScores = {
+  'a': 25,
+  'b': 20,
+  'c': 25,
+  'D': 20,
+  'e': 25,
+  'D': 20,
+  'S': 25
+}
 
 
 //python -m SimpleHTTPServer  to host a local server
@@ -122,6 +131,9 @@ function draw() {
     image(gameOverImage, width / 2, height / 2)
     textSize(32)
     text('Points: ' + points, (width / 2), height / 4);
+  } else if (scene == 4) { //game over screen
+    background(255)
+    text('leaderboard', width / 2, height / 2)
   }
 }
 
@@ -158,7 +170,6 @@ function drawDucks() {
           ducksArray["currentWords"][i] = ''
         }
       }
-      // console.log(ducksArray['currentDiff']);
       if (ducksArray['currentDiff'][i] == 'easy') {
         image(yellowDuckImage, ducksArray["xLocations"][i], ducksArray["yLocations"][i], 50, 50)
       } else {
@@ -166,17 +177,11 @@ function drawDucks() {
       }
 
       text(ducksArray["currentWords"][i], ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
-      // fill(0, 255, 0)
-      // text((lastEnteredWord.join('')), width / 2, height / 2);
-      // text((lastEnteredWord.join('')), ducksArray["xLocations"][i], ducksArray["yLocations"][i] + 50);
     }
-
   }
 }
 
 function addDuckTimer() {
-  // fillRandomItem(pullRandomCode(easyCodeArray)) //use to fill random letters
-  // console.log((displayedWordCount()), 'nowords');
 
   if (millis() > timeOfLastDuck + timeBetweenDucks || (millis() > 5000 && displayedWordCount() < 1)) {
     if (fillRandomItem(pullRandomCode())) { //use to fill random letters
@@ -216,6 +221,14 @@ let removeWord = (wordToRemove) => {
   }
 }
 
+let displayLeaderBoard = () => {
+  // console.log(finalScores);
+  // console.log(finalScores.sort_by {});
+  // console.log(finalScores.keys);
+
+
+}
+
 function keyPressed() {
   if (key == 'Backspace') {
     lastEnteredWord.pop()
@@ -227,23 +240,13 @@ function keyPressed() {
     removeWord(lastEnteredWord)
     lastEnteredWord = []
   }
-
-} <<
-<<
-<< < HEAD
-  ===
-  ===
-  =
-
-  >>>
-  >>>
-  > ea7857a518b79dbdea2fed4bffcd228c33b787f7
+}
 
 function keyReleased() {
-  if (scene == 1) { //start screen
+  if (scene === 1) { //start screen
     background(255)
     image(startScreenLogo, width / 2, height / 2);
-    if (key == ' ') {
+    if (key === ' ') {
       gameStartTime = millis()
       points = 0
       scene = 2
@@ -251,13 +254,32 @@ function keyReleased() {
       ducksArray['currentWords'] = ['', '', '', '', '', '']
       key = ''
     }
+
+    if (key === 'l') {
+      scene = 4
+    }
   } else if (scene == 3) {
-    if (key == ' ') {
+    if (key === ' ') {
       scene = 1
       key = ''
+    } else if (key == 'l') {
+      scene = 4
     }
-  } else if (scene == 4) { //for 2leaderboard
-
   }
-}
+  if (scene == 4) { //for 2leaderboard
+    displayLeaderBoard()
+
+    if (key == ' ') {
+      scene = 1
+    }
+  } <<
+  <<
+  <<
+  < HEAD
+} ===
+===
+= >>>
+>>>
+>
+master
 }
