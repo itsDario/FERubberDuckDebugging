@@ -228,7 +228,16 @@ function keyPressed() {
     lastEnteredWord = []
   }
 
-}
+} <<
+<<
+<< < HEAD
+  ===
+  ===
+  =
+
+  >>>
+  >>>
+  > ea7857a518b79dbdea2fed4bffcd228c33b787f7
 
 function keyReleased() {
   if (scene == 1) { //start screen
@@ -250,4 +259,5 @@ function keyReleased() {
   } else if (scene == 4) { //for 2leaderboard
 
   }
+}
 }
