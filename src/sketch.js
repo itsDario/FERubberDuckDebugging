@@ -10,21 +10,15 @@ let redDuckImage
 let startScreenLogo
 let bathTubeImage
 let timeOfLastDuck = 0
-let timeBetweenDucks = 4000
+let timeBetweenDucks = 5000
 // let timeBetweenDucks = 16000//test timing
 let points = 0 //number of ducks successfully entered
 let scene = 1
 let gameOverImage
-let finalScores = {
-  'a': 25,
-  'b': 20,
-  'c': 25,
-  'D': 20,
-  'e': 25,
-  'D': 20,
-  'S': 25
-}
-
+let finalScores = []
+finalScores['a'] = 25
+finalScores['b'] = 20
+finalScores['c'] = 15
 
 //python -m SimpleHTTPServer  to host a local server
 
@@ -34,7 +28,9 @@ function pullRandomCode() {
   let randomN = Math.random()
   let difficultyCodeArray = easyCodeArray
 
-  if (randomN < 0.8) {
+  if (randomN < 0.8) { //normal
+    // if (true) { //easy
+    // if (false) { //hard
     difficultyCodeArray = easyCodeArray
   } else {
     difficultyCodeArray = hardCodeArray
@@ -62,7 +58,7 @@ function codeFilter() {
 
 
 function setup() {
-  textSize(20)
+  // textSize(24)
   gameOverImage = loadImage("./ducks/emptytubgameover.png")
   startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
@@ -88,8 +84,14 @@ function setup() {
   ducksArray = {
     currentDiff: ['', '', '', '', '', ''],
     currentWords: ['', '', '', '', '', ''],
-    xLocations: [(width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5, (width / 6) * 1.5, (width / 6) * 3, (width / 6) * 4.5],
-    yLocations: [(height / 4) * 1.3, (height / 4) * 1.1, (height / 4) * 1.2, (height / 4) * 2.5, (height / 4) * 2.4, (height / 4) * 2.6]
+    xLocations: [
+      (width / 6) * 1.6, (width / 6) * 3, (width / 6) * 4.4,
+      (width / 6) * 1.6, (width / 6) * 3, (width / 6) * 4.4
+    ],
+    yLocations: [
+      (height / 4) * 1.8, (height / 4) * 1.4, (height / 4) * 1.6,
+      (height / 4) * 2.4, (height / 4) * 2.2, (height / 4) * 2.6
+    ]
   }
 
   //disable default actions
@@ -111,6 +113,7 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 }
 
 function draw() {
+  textSize(32)
   textAlign(CENTER);
   if (scene == 1) {
     background(255)
@@ -121,6 +124,7 @@ function draw() {
     drawDucks()
     addDuckTimer()
 
+    textSize(32)
     textAlign(LEFT);
     displayPoints()
     gameTimeLeft()
@@ -222,12 +226,27 @@ let removeWord = (wordToRemove) => {
 }
 
 let displayLeaderBoard = () => {
-  // console.log(finalScores);
-  // console.log(finalScores.sort_by {});
+  console.log(finalScores);
+  console.log(finalScores.keys);
+  // console.log(finalScores.sort(compare));
   // console.log(finalScores.keys);
 
 
 }
+
+// function compare(a, b) {
+//   // Use toUpperCase() to ignore character casing
+//   const scoreA = a.value
+//   const scoreB = b.value
+
+//   let comparison = 0;
+//   if (scoreA > scoreB) {
+//     comparison = 1;
+//   } else if (gscoreA < scoreB) {
+//     comparison = -1;
+//   }
+//   return comparison;
+// }
 
 function keyPressed() {
   if (key == 'Backspace') {
@@ -255,8 +274,8 @@ function keyReleased() {
       key = ''
     }
 
-    if (key === 'l') {
-      scene = 4
+    if (key === 'b') {
+      scene = 1
     }
   } else if (scene == 3) {
     if (key === ' ') {
@@ -272,14 +291,5 @@ function keyReleased() {
     if (key == ' ') {
       scene = 1
     }
-  } <<
-  <<
-  <<
-  < HEAD
-} ===
-===
-= >>>
->>>
->
-master
+  }
 }
