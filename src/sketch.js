@@ -63,9 +63,9 @@ function setup() {
   startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
-  imageMode(CENTER);
+  Mode(CENTER);
 
-  fetch("http://localhost:3000/words")
+  fetch("https://rubber-duck-debugging-be.herokuapp.com/words")
     .then(response => response.json())
     .then(words => {
       words.forEach((word) => {
