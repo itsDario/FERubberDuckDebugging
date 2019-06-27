@@ -63,7 +63,6 @@ function setup() {
   startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
   redDuckImage = loadImage('./ducks/red.png')
-  Mode(CENTER);
 
   fetch("https://rubber-duck-debugging-be.herokuapp.com/words")
     .then(response => response.json())
@@ -93,6 +92,7 @@ function setup() {
       (height / 4) * 2.4, (height / 4) * 2.2, (height / 4) * 2.6
     ]
   }
+  Mode(CENTER);
 
   //disable default actions
   document.addEventListener('keydown', function (event) {
