@@ -59,6 +59,7 @@ function codeFilter() {
 
 function setup() {
   // textSize(24)
+  // Mode(CENTER)
   gameOverImage = loadImage("./ducks/emptytubgameover.png")
   startScreenLogo = loadImage("./ducks/duckstart.png")
   yellowDuckImage = loadImage('./ducks/yellow.png')
@@ -92,7 +93,6 @@ function setup() {
       (height / 4) * 2.4, (height / 4) * 2.2, (height / 4) * 2.6
     ]
   }
-  Mode(CENTER);
 
   //disable default actions
   document.addEventListener('keydown', function (event) {
@@ -113,13 +113,14 @@ function fillRandomItem(codeObj) { //fills ducksArray with random word
 }
 
 function draw() {
+
   textSize(32)
   textAlign(CENTER);
   if (scene == 1) {
     background(255)
-    image(startScreenLogo, width / 2, height / 2);
+    image(startScreenLogo, (width / 2) - startScreenLogo.width / 2, (height / 2) - startScreenLogo.height / 2);
   } else if (scene == 2) { //game play screen
-    image(bathTubeImage, width / 2, height / 2);
+    image(bathTubeImage, (width / 2) - (bathTubeImage.width / 2), (height / 2) - (bathTubeImage.height / 2));
     text((lastEnteredWord.join('')), width / 2, height / 2);
     drawDucks()
     addDuckTimer()
@@ -132,7 +133,7 @@ function draw() {
 
   } else if (scene == 3) { //game over screen
     background(255)
-    image(gameOverImage, width / 2, height / 2)
+    image(gameOverImage, (width / 2) - (gameOverImage.width / 2), (height / 2) - (gameOverImage.height / 2))
     textSize(32)
     text('Points: ' + points, (width / 2), height / 4);
   } else if (scene == 4) { //game over screen
